@@ -1,0 +1,51 @@
+{
+    "name": "leonardo-dev/monitoring-client",
+    "description": "Cliente PHP para reportar eventos (crash/exception/log) a Monitoring Platform.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["monitoring", "observability", "crash-reporting", "logging"],
+    "authors": [
+        {
+            "name": "Leonardo",
+            "homepage": "https://github.com/leonardo-dev"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6 || ^10.5 || ^11.0 || ^12.0"
+    },
+    "suggest": {
+        "laravel/framework": "Para usar el ServiceProvider/Facade de Laravel (LeonardoDev\\Monitoring\\Laravel)",
+        "yiisoft/yii2": "Para usar el Component de Yii2 (LeonardoDev\\Monitoring\\Yii2)"
+    },
+    "autoload": {
+        "psr-4": {
+            "LeonardoDev\\Monitoring\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LeonardoDev\\Monitoring\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LeonardoDev\\Monitoring\\Laravel\\MonitoringServiceProvider"
+            ],
+            "aliases": {
+                "Monitoring": "LeonardoDev\\Monitoring\\Laravel\\Monitoring"
+            }
+        }
+    },
+    "scripts": {
+        "test": "phpunit tests"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
