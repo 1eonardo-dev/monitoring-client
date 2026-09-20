@@ -14,6 +14,10 @@ A lightweight PHP client for reporting events (crashes, exceptions, logs) to
 - **Stream-based HTTP transport** — no `curl` required.
 - **Optional framework adapters** for Laravel and Yii2.
 
+> The Laravel/Yii2 adapter classes are only loaded if the corresponding
+> framework is installed (lazy autoloading + `suggest` in `composer.json`),
+> so they never break plain-PHP projects.
+
 ## The two packages
 
 This package targets modern PHP projects. If you still run PHP 5, use the
@@ -40,10 +44,10 @@ composer require leonardo-dev/monitoring-client
 use LeonardoDev\Monitoring\MonitoringClient;
 
 $monitoring = new MonitoringClient(
-    baseUrl: 'https://monitoring.your-company.com',
-    apiKey: 'mp_...',
-    platform: 'php',
-    version: '1.0.0',
+    'https://monitoring.your-company.com',
+    'mp_...',
+    'php',
+    '1.0.0',
 );
 
 try {
@@ -71,7 +75,7 @@ $monitoring->captureMessage('Something weird happened', 'warning');
 - `Event` — value object for the event payload (`type`, `level`, `message`,
   `platform`, `version`, `fingerprint`, `context`).
 - `Config` — groups the connection parameters (`baseUrl`, `apiKey`,
-  `platform`, `version`, `timeoutSeconds`).
+  `platform`, `version`, `timeoutSeconds`, `path`).
 
 ```php
 use LeonardoDev\Monitoring\Config;
@@ -88,6 +92,22 @@ $client = MonitoringClient::fromConfig(new Config(
 $client->captureEvent(new Event('custom', 'warning', 'something happened'));
 ```
 
+### Custom endpoint path
+
+By default events are sent to `{baseUrl}/api/v1/events`. You can change the
+path via the `path` argument (or the `path` key in `Config::fromArray`):
+
+```php
+$monitoring = new MonitoringClient(
+    'https://monitoring.your-company.com',
+    'mp_...',
+    'php',
+    '1.0.0',
+    2,
+    '/api/custom/ingest',
+);
+```
+
 ## Laravel integration
 
 The package auto-discovers its service provider and facade. Optionally publish
@@ -102,6 +122,7 @@ Add to your `.env`:
 ```env
 MONITORING_URL=https://monitoring.your-company.com
 MONITORING_API_KEY=mp_...
+MONITORING_API_PATH=/api/v1/events
 ```
 
 Then use the facade:
@@ -149,9 +170,13 @@ class GuzzleTransport implements Transport
 }
 
 $client = new MonitoringClient(
-    baseUrl: 'https://monitoring.your-company.com',
-    apiKey: 'mp_...',
-    transport: new GuzzleTransport(),
+    'https://monitoring.your-company.com',
+    'mp_...',
+    'php',
+    null,
+    2,
+    '/api/v1/events',
+    new GuzzleTransport(),
 );
 ```
 

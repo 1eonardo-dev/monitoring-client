@@ -16,4 +16,6 @@ return [
 
     'key' => env('MONITORING_API_KEY'),
 
+    'path' => env('MONITORING_API_PATH', '/api/v1/events'),
+
 ];

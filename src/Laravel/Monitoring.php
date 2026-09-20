@@ -3,12 +3,14 @@
 namespace LeonardoDev\Monitoring\Laravel;
 
 use Illuminate\Support\Facades\Facade;
+use LeonardoDev\Monitoring\Event;
 use LeonardoDev\Monitoring\MonitoringClient;
+use Throwable;
 
 /**
- * @method static bool captureException(\Throwable $e, array $context = [], ?string $level = null)
+ * @method static bool captureException(Throwable $e, array $context = [], ?string $level = null)
  * @method static bool captureMessage(string $message, string $level = 'info', array $context = [])
- * @method static bool captureEvent(\LeonardoDev\Monitoring\Event $event)
+ * @method static bool captureEvent(Event $event)
  * @method static bool send(array $data)
  *
  * @see MonitoringClient

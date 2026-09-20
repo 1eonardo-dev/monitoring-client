@@ -23,23 +23,28 @@ final class Config
     /** @var int */
     public $timeoutSeconds;
 
+    /** @var string */
+    public $path;
+
     public function __construct(
         string $baseUrl,
         string $apiKey,
         string $platform = 'php',
         ?string $version = null,
-        int $timeoutSeconds = 2
+        int $timeoutSeconds = 2,
+        string $path = '/api/v1/events'
     ) {
         $this->baseUrl = $baseUrl;
         $this->apiKey = $apiKey;
         $this->platform = $platform;
         $this->version = $version;
         $this->timeoutSeconds = $timeoutSeconds;
+        $this->path = $path;
     }
 
     /**
      * Build the configuration from an associative array (keys: url, key,
-     * platform, version, timeout). Useful for framework adapters.
+     * platform, version, timeout, path). Useful for framework adapters.
      *
      * @param array<string, mixed> $config
      */
@@ -50,7 +55,8 @@ final class Config
             (string) ($config['key'] ?? ''),
             (string) ($config['platform'] ?? 'php'),
             isset($config['version']) ? (string) $config['version'] : null,
-            isset($config['timeout']) ? (int) $config['timeout'] : 2
+            isset($config['timeout']) ? (int) $config['timeout'] : 2,
+            isset($config['path']) ? (string) $config['path'] : '/api/v1/events'
         );
     }
 }

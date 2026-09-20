@@ -15,6 +15,7 @@ class ConfigTest extends TestCase
             'platform' => 'laravel',
             'version' => '1.2.3',
             'timeout' => 5,
+            'path' => '/api/v2/events',
         ]);
 
         $this->assertSame('https://monitoring.example', $config->baseUrl);
@@ -22,6 +23,7 @@ class ConfigTest extends TestCase
         $this->assertSame('laravel', $config->platform);
         $this->assertSame('1.2.3', $config->version);
         $this->assertSame(5, $config->timeoutSeconds);
+        $this->assertSame('/api/v2/events', $config->path);
     }
 
     public function test_from_array_defaults(): void
@@ -34,5 +36,6 @@ class ConfigTest extends TestCase
         $this->assertSame('php', $config->platform);
         $this->assertNull($config->version);
         $this->assertSame(2, $config->timeoutSeconds);
+        $this->assertSame('/api/v1/events', $config->path);
     }
 }

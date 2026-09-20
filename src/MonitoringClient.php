@@ -33,12 +33,16 @@ class MonitoringClient
     /** @var int */
     private $timeoutSeconds;
 
+    /** @var string */
+    private $path;
+
     public function __construct(
         string $baseUrl,
         string $apiKey,
         string $platform = 'php',
         ?string $version = null,
         int $timeoutSeconds = 2,
+        string $path = '/api/v1/events',
         ?Transport $transport = null
     ) {
         $this->baseUrl = $baseUrl;
@@ -46,6 +50,7 @@ class MonitoringClient
         $this->platform = $platform;
         $this->version = $version;
         $this->timeoutSeconds = $timeoutSeconds;
+        $this->path = $path;
         $this->transport = $transport ?? new StreamTransport($this->timeoutSeconds);
     }
 
@@ -57,6 +62,7 @@ class MonitoringClient
             $config->platform,
             $config->version,
             $config->timeoutSeconds,
+            $config->path,
             $transport
         );
     }
@@ -149,6 +155,6 @@ class MonitoringClient
 
     private function endpoint(): string
     {
-        return rtrim($this->baseUrl, '/') . '/api/v1/events';
+        return rtrim($this->baseUrl, '/') . '/' . ltrim($this->path, '/');
     }
 }
