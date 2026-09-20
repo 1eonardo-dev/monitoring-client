@@ -3,8 +3,8 @@
 namespace LeonardoDev\Monitoring;
 
 /**
- * Configuración del cliente. Agrupa los parámetros de conexión que antes
- * vivían sueltos en el constructor de MonitoringClient.
+ * Client configuration. Groups the connection parameters that previously
+ * lived as separate arguments in the MonitoringClient constructor.
  */
 final class Config
 {
@@ -38,8 +38,8 @@ final class Config
     }
 
     /**
-     * Construye la config desde un array asociativo (claves: url, key,
-     * platform, version, timeout). Útil para adaptadores de framework.
+     * Build the configuration from an associative array (keys: url, key,
+     * platform, version, timeout). Useful for framework adapters.
      *
      * @param array<string, mixed> $config
      */

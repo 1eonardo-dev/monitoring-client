@@ -3,8 +3,8 @@
 namespace LeonardoDev\Monitoring\Transport;
 
 /**
- * Transporte por defecto basado en streams de PHP (`file_get_contents` +
- * `stream_context_create`), sin depender de la extensión `curl`.
+ * Default transport based on PHP streams (`file_get_contents` +
+ * `stream_context_create`), without depending on the `curl` extension.
  */
 class StreamTransport implements Transport
 {
@@ -33,8 +33,8 @@ class StreamTransport implements Transport
                 'header' => $headerLines,
                 'content' => $body,
                 'timeout' => $this->timeoutSeconds,
-                // Para poder leer el status incluso en respuestas 4xx/5xx
-                // en vez de que file_get_contents devuelva false.
+                // Allows reading the status even on 4xx/5xx responses
+                // instead of file_get_contents returning false.
                 'ignore_errors' => true,
             ],
         ]);

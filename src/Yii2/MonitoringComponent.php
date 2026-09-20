@@ -7,9 +7,9 @@ use Throwable;
 use yii\base\Component;
 
 /**
- * Componente de Yii2 para reportar eventos a Monitoring Platform.
+ * Yii2 component for reporting events to Monitoring Platform.
  *
- * Configuración típica (config/web.php de la app anfitriona):
+ * Typical configuration (host app's config/web.php):
  *
  *   'components' => [
  *       'monitoring' => [
@@ -19,7 +19,7 @@ use yii\base\Component;
  *       ],
  *   ],
  *
- * Uso: `Yii::$app->monitoring->exception($e);`
+ * Usage: `Yii::$app->monitoring->exception($e);`
  */
 class MonitoringComponent extends Component
 {

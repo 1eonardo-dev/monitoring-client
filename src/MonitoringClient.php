@@ -7,11 +7,11 @@ use LeonardoDev\Monitoring\Transport\Transport;
 use Throwable;
 
 /**
- * Cliente PHP genérico para Monitoring Platform. Habla el esquema propio
- * de la plataforma directamente contra `POST /api/v1/events`.
+ * Generic PHP client for Monitoring Platform. Speaks the platform's own
+ * schema directly against `POST /api/v1/events`.
  *
- * Nunca lanza excepciones: un fallo al reportar un error no debe generar
- * un error nuevo en la aplicación que lo usa.
+ * Never throws exceptions: a failure to report an error must not produce
+ * a new error in the host application.
  */
 class MonitoringClient
 {
@@ -104,8 +104,8 @@ class MonitoringClient
     }
 
     /**
-     * Envío de bajo nivel para casos que no encajan en captureException/
-     * captureMessage/captureEvent — `$data` sigue el esquema de la API
+     * Low-level send for cases that do not fit into captureException/
+     * captureMessage/captureEvent — `$data` follows the API schema
      * (`type`, `level`, `message`, `fingerprint`, `context`, ...).
      *
      * @param array<string, mixed> $data
@@ -122,7 +122,7 @@ class MonitoringClient
         $body = json_encode($payload);
 
         if ($body === false) {
-            error_log('[MonitoringClient] no se pudo serializar el payload a JSON.');
+            error_log('[MonitoringClient] failed to serialize the payload to JSON.');
 
             return false;
         }
@@ -133,13 +133,13 @@ class MonitoringClient
         ]);
 
         if ($response === null) {
-            error_log('[MonitoringClient] la petición falló (timeout o conexión rechazada).');
+            error_log('[MonitoringClient] request failed (timeout or connection refused).');
 
             return false;
         }
 
         if ($response['status'] < 200 || $response['status'] >= 300) {
-            error_log("[MonitoringClient] respuesta inesperada: HTTP {$response['status']}.");
+            error_log("[MonitoringClient] unexpected response: HTTP {$response['status']}.");
 
             return false;
         }

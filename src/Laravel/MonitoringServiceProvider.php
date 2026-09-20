@@ -7,11 +7,11 @@ use LeonardoDev\Monitoring\Config;
 use LeonardoDev\Monitoring\MonitoringClient;
 
 /**
- * Registra MonitoringClient como singleton en apps Laravel que instalen
- * este paquete. Auto-descubierta por Laravel (ver `extra.laravel` en
- * composer.json de este paquete) — no requiere registro manual.
+ * Registers MonitoringClient as a singleton in Laravel applications that
+ * install this package. Auto-discovered by Laravel (see `extra.laravel` in
+ * this package's composer.json) — no manual registration required.
  *
- * Config esperada (publicable vía `php artisan vendor:publish`):
+ * Expected config (publishable via `php artisan vendor:publish`):
  *   config/monitoring.php -> ['url' => env('MONITORING_URL'), 'key' => env('MONITORING_API_KEY')]
  */
 class MonitoringServiceProvider extends ServiceProvider

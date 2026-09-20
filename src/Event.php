@@ -3,8 +3,8 @@
 namespace LeonardoDev\Monitoring;
 
 /**
- * Value object que representa un evento a reportar, siguiendo el esquema
- * de POST /api/v1/events (type, level, message, platform, version,
+ * Value object representing an event to report, following the
+ * POST /api/v1/events schema (type, level, message, platform, version,
  * fingerprint, context).
  */
 final class Event

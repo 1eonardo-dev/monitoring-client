@@ -1,46 +1,77 @@
-# leonardo-dev/monitoring-client
+# Monitoring Platform Client
 
-Cliente PHP para reportar eventos (crash/exception/log) a **Monitoring
-Platform**. Habla el esquema propio de la plataforma directamente contra
-`POST /api/v1/events`.
+A lightweight PHP client for reporting events (crashes, exceptions, logs) to
+**Monitoring Platform**.
 
-- **Sin dependencias obligatorias.** Funciona en cualquier proyecto PHP 7.4+.
-- **Nunca lanza excepciones**: un fallo de red al reportar se registra con
-  `error_log()` y el método devuelve `false`.
-- Transporte HTTP por streams de PHP (sin `curl`).
-- Adaptadores opcionales para **Laravel** y **Yii2**.
+[![Packagist Version](https://img.shields.io/packagist/v/leonardo-dev/monitoring-client.svg)](https://packagist.org/packages/leonardo-dev/monitoring-client)
+[![PHP Version](https://img.shields.io/packagist/php-v/leonardo-dev/monitoring-client.svg)](https://packagist.org/packages/leonardo-dev/monitoring-client)
+[![License](https://img.shields.io/packagist/l/leonardo-dev/monitoring-client.svg)](LICENSE)
+[![Downloads](https://img.shields.io/packagist/dt/leonardo-dev/monitoring-client.svg)](https://packagist.org/packages/leonardo-dev/monitoring-client)
 
-> Existe una versión legacy compatible con PHP 5.6 en
-> [`leonardo-dev/monitoring-client-legacy`](https://github.com/leonardo-dev/monitoring-client-legacy).
+- **No mandatory dependencies** — runs in any PHP 7.4+ project.
+- **Never throws** — a network failure is logged via `error_log()` and the
+  method returns `false`, so your application never breaks while reporting.
+- **Stream-based HTTP transport** — no `curl` required.
+- **Optional framework adapters** for Laravel and Yii2.
 
-## Instalación
+## The two packages
+
+This package targets modern PHP projects. If you still run PHP 5, use the
+legacy package instead:
+
+| Package | PHP | Framework adapters | Type hints |
+|---|---|---|---|
+| `leonardo-dev/monitoring-client` | 7.4+ | Laravel & Yii2 | Yes |
+| [`leonardo-dev/monitoring-client-legacy`](https://github.com/leonardo-dev/monitoring-client-legacy) | 5.6+ | None (pure PHP) | No |
+
+## Requirements
+
+- PHP 7.4 or later.
+
+## Installation
 
 ```bash
 composer require leonardo-dev/monitoring-client
 ```
 
-## Uso (PHP puro)
+## Quick start
 
 ```php
 use LeonardoDev\Monitoring\MonitoringClient;
 
 $monitoring = new MonitoringClient(
-    baseUrl: 'https://monitoring.tu-empresa.com',
+    baseUrl: 'https://monitoring.your-company.com',
     apiKey: 'mp_...',
     platform: 'php',
     version: '1.0.0',
 );
 
 try {
-    // tu código
+    // your code
 } catch (\Throwable $e) {
     $monitoring->captureException($e);
 }
 
-$monitoring->captureMessage('Algo raro pasó', 'warning');
+$monitoring->captureMessage('Something weird happened', 'warning');
 ```
 
-### Con DTO `Event` y `Config`
+## API
+
+### `MonitoringClient`
+
+| Method | Description |
+|---|---|
+| `captureException(\Throwable $e, array $context = [], ?string $level = null): bool` | Report an exception. |
+| `captureMessage(string $message, string $level = 'info', array $context = []): bool` | Report a log message. |
+| `captureEvent(Event $event): bool` | Report a custom event. |
+| `send(array $data): bool` | Low-level send with a raw payload. |
+
+### DTOs
+
+- `Event` — value object for the event payload (`type`, `level`, `message`,
+  `platform`, `version`, `fingerprint`, `context`).
+- `Config` — groups the connection parameters (`baseUrl`, `apiKey`,
+  `platform`, `version`, `timeoutSeconds`).
 
 ```php
 use LeonardoDev\Monitoring\Config;
@@ -48,43 +79,44 @@ use LeonardoDev\Monitoring\Event;
 use LeonardoDev\Monitoring\MonitoringClient;
 
 $client = MonitoringClient::fromConfig(new Config(
-    'https://monitoring.tu-empresa.com',
+    'https://monitoring.your-company.com',
     'mp_...',
     'php',
-    '1.0.0'
+    '1.0.0',
 ));
 
-$client->captureEvent(new Event('custom', 'warning', 'algo pasó'));
+$client->captureEvent(new Event('custom', 'warning', 'something happened'));
 ```
 
-## Laravel
+## Laravel integration
 
-1. Publicá la config (opcional):
+The package auto-discovers its service provider and facade. Optionally publish
+the config:
 
-   ```bash
-   php artisan vendor:publish --tag=monitoring-config
-   ```
+```bash
+php artisan vendor:publish --tag=monitoring-config
+```
 
-2. Configurá en `.env`:
+Add to your `.env`:
 
-   ```env
-   MONITORING_URL=https://monitoring.tu-empresa.com
-   MONITORING_API_KEY=mp_...
-   ```
+```env
+MONITORING_URL=https://monitoring.your-company.com
+MONITORING_API_KEY=mp_...
+```
 
-3. Usá la facade (auto-descubierta):
+Then use the facade:
 
-   ```php
-   use LeonardoDev\Monitoring\Laravel\Monitoring;
+```php
+use LeonardoDev\Monitoring\Laravel\Monitoring;
 
-   try {
-       // tu código
-   } catch (\Throwable $e) {
-       Monitoring::captureException($e);
-   }
-   ```
+try {
+    // your code
+} catch (\Throwable $e) {
+    Monitoring::captureException($e);
+}
+```
 
-## Yii2
+## Yii2 integration
 
 ```php
 'components' => [
@@ -95,8 +127,32 @@ $client->captureEvent(new Event('custom', 'warning', 'algo pasó'));
     ],
 ],
 
-// Uso:
+// Usage:
 Yii::$app->monitoring->exception($e);
+```
+
+## Custom transport
+
+Implement `LeonardoDev\Monitoring\Transport\Transport` to use your own HTTP
+client (Guzzle, cURL, etc.):
+
+```php
+use LeonardoDev\Monitoring\MonitoringClient;
+use LeonardoDev\Monitoring\Transport\Transport;
+
+class GuzzleTransport implements Transport
+{
+    public function send(string $url, string $body, array $headers): ?array
+    {
+        // ... return ['status' => int, 'body' => string], or null on failure.
+    }
+}
+
+$client = new MonitoringClient(
+    baseUrl: 'https://monitoring.your-company.com',
+    apiKey: 'mp_...',
+    transport: new GuzzleTransport(),
+);
 ```
 
 ## Tests
@@ -106,6 +162,10 @@ composer install
 composer test
 ```
 
-## Licencia
+## Changelog
 
-MIT. Ver [LICENSE](LICENSE).
+See [CHANGELOG.md](CHANGELOG.md).
+
+## License
+
+MIT. See [LICENSE](LICENSE).

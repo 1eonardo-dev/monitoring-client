@@ -5,8 +5,8 @@ namespace LeonardoDev\Monitoring\Tests;
 use LeonardoDev\Monitoring\Transport\Transport;
 
 /**
- * Transporte falso para tests: captura lo último enviado sin pegarle a la
- * red, y permite simular una respuesta (o un fallo, con `null`).
+ * Fake transport for tests: captures the last payload sent without hitting
+ * the network, and allows simulating a response (or a failure, with `null`).
  */
 class FakeTransport implements Transport
 {

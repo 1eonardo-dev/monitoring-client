@@ -5,9 +5,9 @@ namespace LeonardoDev\Monitoring\Transport;
 interface Transport
 {
     /**
-     * Envía `$body` (JSON) por POST a `$url` con `$headers`. Devuelve
-     * `null` si la petición no pudo completarse (timeout, DNS, conexión
-     * rechazada) — nunca lanza excepciones.
+     * Sends `$body` (JSON) via POST to `$url` with `$headers`. Returns
+     * `null` if the request could not be completed (timeout, DNS,
+     * connection refused) — never throws exceptions.
      *
      * @param array<string, string> $headers
      * @return array{status: int, body: string}|null

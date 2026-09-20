@@ -7,8 +7,8 @@ return [
     | Monitoring Platform
     |--------------------------------------------------------------------------
     |
-    | Configuración del cliente de Monitoring Platform. La url y la clave
-    | provienen de variables de entorno por defecto.
+    | Monitoring Platform client configuration. The URL and API key come
+    | from environment variables by default.
     |
     */
 
