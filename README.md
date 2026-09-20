@@ -3,10 +3,10 @@
 A lightweight PHP client for reporting events (crashes, exceptions, logs) to
 **Monitoring Platform**.
 
-[![Packagist Version](https://img.shields.io/packagist/v/leonardo-dev/monitoring-client.svg)](https://packagist.org/packages/leonardo-dev/monitoring-client)
-[![PHP Version](https://img.shields.io/packagist/php-v/leonardo-dev/monitoring-client.svg)](https://packagist.org/packages/leonardo-dev/monitoring-client)
-[![License](https://img.shields.io/packagist/l/leonardo-dev/monitoring-client.svg)](LICENSE)
-[![Downloads](https://img.shields.io/packagist/dt/leonardo-dev/monitoring-client.svg)](https://packagist.org/packages/leonardo-dev/monitoring-client)
+[![Packagist Version](https://img.shields.io/packagist/v/1eonardo-dev/monitoring-client.svg)](https://packagist.org/packages/1eonardo-dev/monitoring-client)
+[![PHP Version](https://img.shields.io/packagist/php-v/1eonardo-dev/monitoring-client.svg)](https://packagist.org/packages/1eonardo-dev/monitoring-client)
+[![License](https://img.shields.io/packagist/l/1eonardo-dev/monitoring-client.svg)](LICENSE)
+[![Downloads](https://img.shields.io/packagist/dt/1eonardo-dev/monitoring-client.svg)](https://packagist.org/packages/1eonardo-dev/monitoring-client)
 
 - **No mandatory dependencies** — runs in any PHP 7.4+ project.
 - **Never throws** — a network failure is logged via `error_log()` and the
@@ -25,8 +25,8 @@ legacy package instead:
 
 | Package | PHP | Framework adapters | Type hints |
 |---|---|---|---|
-| `leonardo-dev/monitoring-client` | 7.4+ | Laravel & Yii2 | Yes |
-| [`leonardo-dev/monitoring-client-legacy`](https://github.com/leonardo-dev/monitoring-client-legacy) | 5.6+ | None (pure PHP) | No |
+| `1eonardo-dev/monitoring-client` | 7.4+ | Laravel & Yii2 | Yes |
+| [`1eonardo-dev/monitoring-client-legacy`](https://github.com/1eonardo-dev/monitoring-client-legacy) | 5.6+ | None (pure PHP) | No |
 
 ## Requirements
 
@@ -35,7 +35,7 @@ legacy package instead:
 ## Installation
 
 ```bash
-composer require leonardo-dev/monitoring-client
+composer require 1eonardo-dev/monitoring-client
 ```
 
 ## Quick start

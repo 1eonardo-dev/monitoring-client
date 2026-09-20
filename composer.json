@@ -1,5 +1,5 @@
 {
-    "name": "leonardo-dev/monitoring-client",
+    "name": "1eonardo-dev/monitoring-client",
     "description": "PHP client for reporting events (crash/exception/log) to Monitoring Platform.",
     "type": "library",
     "license": "MIT",
@@ -7,7 +7,7 @@
     "authors": [
         {
             "name": "Leonardo D. Palma",
-            "homepage": "https://github.com/leonardo-dev"
+            "homepage": "https://github.com/1eonardo-dev"
         }
     ],
     "require": {
